@@ -31,6 +31,74 @@ public class HugeUnsignedInt
   }
   
   
+  //adds two HugeUnsignedInts, stores result in caller
+  //TODO: perhaps change parameter to int, making int constructor unnecessary?
+  public void add( HugeUnsignedInt b )
+  {
+    int c; //carry
+    if ( this.size > b.size ){
+      
+    }
+      
+    
+  }
+  
+  
+  //subtracts parameter HugeUnsignedInt from caller HugeUnsignedInt
+  //report error if result would be negative
+  public void subtract( HugeUnsignedInt b )
+  {
+  }
+  
+  
+  //returns true if two HUI are the same, false if not
+  public boolean equals( HugeUnsignedInt b )
+  {
+    if ( this.size == b.size ){
+      for (int i=0; i < size; i++){
+        if (this.digits[i] != b.digits[i])
+          return false;
+      }
+      return true;
+    }
+    
+    return false;
+  }
+  
+  
+  //returns true if caller is less than parameter
+  public boolean isLessThan( HugeUnsignedInt b )
+  {
+    if (this.size < b.size)
+      return true;
+    else if (this.size > b.size)
+      return false;
+    else{
+      for (int i=0; i < size; i++){
+        if (this.digits[size-1-i] < b.digits[size-1-i])
+          return true;
+      }
+      return false;
+    }
+  }
+  
+  
+  //returns true if caller is greater than parameter
+  public boolean isGreaterThan( HugeUnsignedInt b )
+  {
+    if (this.size > b.size)
+      return true;
+    else if (this.size < b.size)
+      return false;
+    else{
+      for (int i=0; i < size; i++){
+        if (this.digits[size-1-i] > b.digits[size-1-i])
+          return true;
+      }
+      return false;
+    }
+  }
+  
   //prints out a HugeUnsignedInt (must reverse digits)
   public void printNum()
   {
@@ -39,6 +107,8 @@ public class HugeUnsignedInt
     System.out.println();
   }
   
+  
+  //some simple test code
   public static void main(String[] args)
   {
     //test for string
@@ -50,5 +120,19 @@ public class HugeUnsignedInt
     //test for integer
     HugeUnsignedInt n2 = new HugeUnsignedInt(Integer.MAX_VALUE);
     n2.printNum();
+    
+    //test relational operators
+    HugeUnsignedInt small = new HugeUnsignedInt("123456");
+    HugeUnsignedInt small2 = new HugeUnsignedInt(123456);
+    HugeUnsignedInt med = new HugeUnsignedInt("123456789");
+    HugeUnsignedInt med2 = new HugeUnsignedInt("123456788");
+    
+    assert small.equals(small2);
+    assert small.isLessThan(med);
+    assert !(small.isGreaterThan(med));
+    assert !(med.equals(med2));
+    assert med.isGreaterThan(med2);
+    assert !(med.isLessThan(med2));
+    System.out.println("Assertions passed");
   }
 }
