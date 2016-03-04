@@ -16,9 +16,9 @@ public class HugeUnsignedInt
       cap = cap*2;
     digits = new byte[cap];
     
-    //fill array with digits
+    //fill array with digits, starting with ones place
     for (int i=0; i < n; i++)
-      digits[i] = (byte) Character.getNumericValue(num.charAt(i));
+      digits[i] = (byte) Character.getNumericValue(num.charAt(n-1-i));
     
     size = n;
   }
@@ -31,11 +31,11 @@ public class HugeUnsignedInt
   }
   
   
-  //prints out a HugeUnsignedInt
+  //prints out a HugeUnsignedInt (must reverse digits)
   public void printNum()
   {
     for (int i=0; i < size; i++)
-      System.out.print(digits[i]);
+      System.out.print(digits[size-1-i]);
     System.out.println();
   }
   
