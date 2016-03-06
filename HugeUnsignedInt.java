@@ -39,14 +39,17 @@ public class HugeUnsignedInt
     if ( this.size > b.size ){
       
     }
-      
-    
   }
   
   
   //subtracts parameter HugeUnsignedInt from caller HugeUnsignedInt
   //report error if result would be negative
   public void subtract( HugeUnsignedInt b )
+  {
+  }
+  
+  
+  public void multiply( HugeUnsignedInt b )
   {
   }
   
