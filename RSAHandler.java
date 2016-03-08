@@ -4,12 +4,13 @@
 
 public class RSAHandler
 {
-  private HugeUnsignedInt p;
-  private HugeUnsignedInt q;
+  private HugePrime p;
+  private HugePrime q;
   
-  public RSAHandler (HugeUnsignedInt p, HugeUnsignedInt q)
+  public RSAHandler (HugePrime p, HugePrime q)
   {
-    
+    this.p = p;
+    this.q = q;
   }
   
   

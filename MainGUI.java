@@ -3,12 +3,13 @@
 import javax.swing.*;
 
 public class MainGUI extends JFrame
-{
-  private JMenu menu;
+{  
+  RSAHandler rsa;
   
   public MainGUI()
   {
     super("RSA Message Encryption/Decryption");
+    JMenu menu;
   }
   
   
