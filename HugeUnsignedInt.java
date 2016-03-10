@@ -35,10 +35,60 @@ public class HugeUnsignedInt
   //TODO: perhaps change parameter to int, making int constructor unnecessary?
   public void add( HugeUnsignedInt b )
   {
-    int c; //carry
-    if ( this.size > b.size ){
-      
+    int s = 0; //sum of digits and carry
+    int c = 0; //carry
+    HugeUnsignedInt bigger, smaller;
+    
+    if (this.isLessThan(b)){
+      bigger = b;
+      smaller = this;
     }
+    else{
+      bigger = this;
+      smaller = b;
+    }
+    
+    int newCap = bigger.cap; 
+    byte[] sum = new byte[newCap]; //size of result array 
+    
+    int n = smaller.size; //number of digits to loop through
+    //sum numbers
+    int i;
+    for (i=0; i < n; i++){
+      s = this.digits[i] + b.digits[i] + c;
+      if (s >= 10){
+        c = s/10;
+        s = s%10;
+      }
+      sum[i] = (byte) s; 
+    }
+    
+    n = bigger.size;
+    //fill in rest of array
+    for (; i < n; i++){
+      s = bigger.digits[i] + c;
+      if (s >= 10){
+        c = s/10;
+        s = s%10;
+      }
+      sum[i] = (byte) s; 
+    }
+    
+    if (c > 0){
+      if (i >= newCap){
+        //resize array, copy contents, update newCap
+        byte[] d2 = new byte[newCap*2];
+        System.arraycopy(sum, 0, d2, 0, newCap);
+        newCap = newCap*2;
+        sum = d2;
+      }
+      sum[i] = (byte) c;
+      i++;
+    }
+    
+    this.digits = sum;
+    this.size = i;
+    this.cap = newCap;
   }
   
   
@@ -136,6 +186,16 @@ public class HugeUnsignedInt
     assert !(med.equals(med2));
     assert med.isGreaterThan(med2);
     assert !(med.isLessThan(med2));
-    System.out.println("Assertions passed");
+    System.out.println("relational Assertions passed");
+    
+    //test addition
+    HugeUnsignedInt sum = new HugeUnsignedInt("123");
+    sum.add(new HugeUnsignedInt("123123"));
+    sum.printNum();    
+    sum = new HugeUnsignedInt("99999999999999999999999999999999");
+    sum.add(new HugeUnsignedInt(1));
+    sum.printNum();
+    
+    
   }
 }
