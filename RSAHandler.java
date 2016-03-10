@@ -4,34 +4,56 @@
 
 public class RSAHandler
 {
-  private HugePrime p;
+  private HugePrime p;   
   private HugePrime q;
-  
+  private HugeUnsignedInt n;
+  private HugeUnsignedInt l;
+  private HugeUnsignedInt e;
+  private HugeUnsignedInt d;
+
+ 
   public RSAHandler (HugePrime p, HugePrime q)
   {
+   
     this.p = p;
     this.q = q;
+    n = p.multiply(q;)
+   
+    //Should we have subtract be able to enter ints instead of a HUI?
+    //Will making a HUI with a "1" be too much?
+   
+    HugeUnsignedInt subtractOne = new HugeUnsignedInt("1");
+    HugeUnsignedInt p1 = p.subtract(subtractOne);
+    HugeUnsignedInt q1 = q.subtract(subtractOne);
+    l = p1.multiply(q1);
+   
+    //how should the user enter the random values for e and d?
+    //also have to use euclidean to find e. do we have to implement in HUI?
+   
+    HugeUnsignedInt k;
+   
+   
   }
-  
-  
+ 
+ 
   //generates a public-private key set and saves each to a separate file
   public void generateKeys()
   {
   }
-  
-  
+ 
+ 
   public void blockFile(int blockSize, String fileName)
   {
   }
-  
+ 
   public void unblockFile(int blockSize, String fileName)
   {
   }
-  
+ 
   public void encrypt(String blockedFile, String keyFile, String outputFile)
   {
   }
-  
+ 
   public void decrypt()
   {
   }
