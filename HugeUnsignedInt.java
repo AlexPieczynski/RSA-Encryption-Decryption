@@ -16,6 +16,7 @@ public class HugeUnsignedInt
     digits = new byte[cap];
     
     //fill array with digits, starting with ones place
+    //Hey alex what happens if the user adds leading 0? should we take care of that?
     for (int i=0; i < n; i++)
       digits[i] = (byte) Character.getNumericValue(num.charAt(n-1-i));
     
