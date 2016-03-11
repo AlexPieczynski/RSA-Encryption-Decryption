@@ -36,7 +36,16 @@ public class RSAHandler
     //or 3 for basic codes and 65537 (which is 216 + 1) for more secure codes. <-- this sounds like a good lazy way I do this
     //actually sounds like a bad idea
    
-    HugeUnsignedInt k;
+    e = 65537;
+    HugeUnsignedInt k=1;
+    
+    HugeUnsignedInt loving =  ((l.multiply(k)).add(1)).modulus(e);
+    while (loving != 0)
+    {
+      k++;
+      loving =  ((l.multiply(k)).add(1)).modulus(e);
+    }
+    d = loving;
    
    
   }
