@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.PrintWriter;
+
 /* class to create a public and private RSA key and save them to a file
  *   -also contains methods to encrypt/decrypt messages using the keys
  */
@@ -39,9 +44,10 @@ public class RSAHandler
   
  
   //generates a public-private key set and saves each to a separate file
-  public void generateKeys()
+  public void generateKeys(HugePrime p, HugePrime q)
   {
     //look up how to make pretty XML files. then public is e and n, private is d and n
+	  
   }
  
  
@@ -54,6 +60,22 @@ public class RSAHandler
      * then add to another file?
      * 
      **/
+	  File file = new File(fileName);
+	  File blockedFile = new File("Blocked File");
+	  BufferedReader br = new BufferedReader(new FileReader(file));
+	  //File should have one line which is the large number
+	  String number = br.readLine();
+	  HugeUnsignedInt numToBeBlocked = new HugeUnsignedInt(number);
+	  int numOfNull = 0; //numToBeBlocked.modulus(blockSize);
+	  PrintWriter pw = new PrintWriter(blockedFile);
+	  for(int i = (numToBeBlocked.size);i > 0;i= (i-blockSize) )
+	  {
+		  //Need some way of accessing the numbers to split it up. Or is there some better way?
+		  String split = "";
+		  pw.println(split);
+		  
+	  }
+	  pw.close();
   }
  
   public void unblockFile(int blockSize, String fileName)
@@ -63,6 +85,9 @@ public class RSAHandler
      * WHAT IF WE HAVE LEADING 0 IN THE HUI ERROR
      * 
      * */
+	  File file = new File(fileName);
+	  
+	  
   }
  
   public void encrypt(String blockedFile, String keyFile, String outputFile)
