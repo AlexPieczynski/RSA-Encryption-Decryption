@@ -6,7 +6,6 @@ public class HugeUnsignedInt
   private int cap = 32; //default max number of digits in array
   private byte[] digits; //array to hold digits 0-9
   
-  
   //converts a string into a HugeUnsignedInt
   public HugeUnsignedInt( String num )
   {
@@ -31,10 +30,16 @@ public class HugeUnsignedInt
   }
   
   
-  //adds two HugeUnsignedInts, stores result in caller
+  //adds two HugeUnsignedInts, returns result
   //TODO: perhaps change parameter to int, making int constructor unnecessary?
-  public void add( HugeUnsignedInt b )
+  public HugeUnsignedInt add( int b ){
+    return this.add(new HugeUnsignedInt(b));
+  }
+  
+  public HugeUnsignedInt add( HugeUnsignedInt b )
   {
+    HugeUnsignedInt result = new HugeUnsignedInt(0);
+    
     int s = 0; //sum of digits and carry
     int c = 0; //carry
     HugeUnsignedInt bigger, smaller;
@@ -86,21 +91,58 @@ public class HugeUnsignedInt
       i++;
     }
     
-    this.digits = sum;
-    this.size = i;
-    this.cap = newCap;
+    result.digits = sum;
+    result.size = i;
+    result.cap = newCap;
+    return result;
   }
   
   
   //subtracts parameter HugeUnsignedInt from caller HugeUnsignedInt
   //report error if result would be negative
-  public void subtract( HugeUnsignedInt b )
+  public HugeUnsignedInt subtract( int b ){
+    return this.subtract(new HugeUnsignedInt(b));
+  }
+  
+  public HugeUnsignedInt subtract( HugeUnsignedInt b )
   {
+    //throw exception?
+    if (this.isLessThan(b))
+      return new HugeUnsignedInt(0);
+    
+    return b;
+  }
+  
+  public HugeUnsignedInt multiply( int b ){
+    return this.multiply(new HugeUnsignedInt(b));
+  }
+  
+  public HugeUnsignedInt multiply( HugeUnsignedInt b )
+  {
+    return b;
   }
   
   
-  public void multiply( HugeUnsignedInt b )
+  public HugeUnsignedInt divide( int b ){
+    return this.divide(new HugeUnsignedInt(b));
+  }
+  
+  public HugeUnsignedInt divide( HugeUnsignedInt b )
   {
+    //throw exception?
+    if (b.equals(new HugeUnsignedInt(0)))
+      return this;
+    return this;
+  }
+  
+  
+  public HugeUnsignedInt modulus( int b ){
+    return this.modulus(new HugeUnsignedInt(b));
+  }
+  
+  public HugeUnsignedInt modulus( HugeUnsignedInt b )
+  {
+    return this;
   }
   
   

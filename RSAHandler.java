@@ -17,7 +17,7 @@ public class RSAHandler
    
     this.p = p;
     this.q = q;
-    n = p.multiply(q;)
+    n = p.multiply(q);
    
     //Should we have subtract be able to enter ints instead of a HUI?
     //Will making a HUI with a "1" be too much?
