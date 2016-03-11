@@ -53,10 +53,41 @@ public class RSAHandler
   
  
   //generates a public-private key set and saves each to a separate file
-  public void generateKeys(HugePrime p, HugePrime q)
+  public void generateKeys()
   {
     //look up how to make pretty XML files. then public is e and n, private is d and n
-	  
+	try{
+      //look up how to make pretty XML files. then public is e and n, private is d and n
+      DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+      
+      // root elements
+      Document doc = docBuilder.newDocument();
+      Element rootElement = doc.createElement("rsakey");
+      doc.appendChild(rootElement);
+      
+      Element evalue = doc.createElement("evalue");
+      evalue.appendChild(doc.createTextNode("value-of-e"));
+      staff.appendChild(evalue);
+      
+      Element nvalue = doc.createElement("nvalue");
+      nvalue.appendChild(doc.createTextNode("value-of-n"));
+      staff.appendChild(nvalue);
+      
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      Transformer transformer = transformerFactory.newTransformer();
+      DOMSource source = new DOMSource(doc);
+      StreamResult result = new StreamResult(new File("C:\\file.xml"));
+      
+      transformer.transform(source, result);
+      
+      System.out.println("File saved!");
+      
+    } catch (ParserConfigurationException pce) {
+      pce.printStackTrace();
+    } catch (TransformerException tfe) {
+      tfe.printStackTrace();
+    }	  
   }
  
  
