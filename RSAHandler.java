@@ -19,12 +19,11 @@ public class RSAHandler
     this.q = q;
     n = p.multiply(q);
    
-    //Should we have subtract be able to enter ints instead of a HUI?
+    //Should we have subtract be able to enter ints instead of a HUI? FIXED - ALEX
     //Will making a HUI with a "1" be too much?
    
-    HugeUnsignedInt subtractOne = new HugeUnsignedInt("1");
-    HugeUnsignedInt p1 = p.subtract(subtractOne);
-    HugeUnsignedInt q1 = q.subtract(subtractOne);
+    HugeUnsignedInt p1 = p.subtract(1);
+    HugeUnsignedInt q1 = q.subtract(1);
     l = p1.multiply(q1);
    
     //how should the user enter the random values for e and d?
