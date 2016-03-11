@@ -1,3 +1,7 @@
+/* class to create a public and private RSA key and save them to a file
+ *   -also contains methods to encrypt/decrypt messages using the keys
+ */
+
 public class RSAHandler
 {
   private HugePrime p;   
@@ -25,6 +29,7 @@ public class RSAHandler
     //how should the user enter the random values for e and d?
     //also have to use euclidean to find e. do we have to implement in HUI?
     //or 3 for basic codes and 65537 (which is 216 + 1) for more secure codes. <-- this sounds like a good lazy way I do this
+    //actually sounds like a bad idea
    
     HugeUnsignedInt k;
    
