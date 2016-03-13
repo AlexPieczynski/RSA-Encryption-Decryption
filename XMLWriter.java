@@ -1,11 +1,42 @@
 import java.io.*;
 
+/* 1. Create instance of XMLWriter
+ * 2. call makePublicKey or makePrivateKey with e and n values as paramter
+ * 3. You're done
+ */
+
 public class XMLWriter
-{
-  public XMLWriter( String e, String n )
+{  
+  private String e;
+  private String n;
+  
+  public XMLWriter()
+  {}
+  
+  public void makePublicKey(String e, String n)
   {
+    this.e = e;
+    this.n = n;
+    this.makeKey(false);
+  }
+  
+  public void makePrivateKey(String e, String n)
+  {
+    this.e = e;
+    this.n = n;
+    this.makeKey(true);
+  }
+  
+  private void makeKey(boolean isPrivate)
+  {
+    String fname;
+    if (isPrivate)
+      fname = "prikey.xml";
+    else
+      fname = "pubkey.xml";
+    
     try{
-    File file = new File("pubkey.xml");
+    File file = new File(fname);
     FileWriter fw = new FileWriter(file.getAbsoluteFile());
     BufferedWriter bw = new BufferedWriter(fw);
     
