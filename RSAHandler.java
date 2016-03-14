@@ -135,15 +135,45 @@ public class RSAHandler
    
   }
  
-  public void encrypt(String blockedFile, String keyFile, String outputFile)
+ public void encrypt(String blockedFile, String keyFile, String outputFile)throws IOException, FileNotFoundException
   {
     //take the e and n value from the key file
+    //take in lines from file to be the input
     //output number = (input)^e mod n
+    File file = new File(blockedFile);
+    File out = new File(outputFile);
+    BufferedReader bufferedReader =  new BufferedReader(new FileReader(file));
+    PrintWriter pw = new PrintWriter(out);
+    String line;
+    while((line = bufferedReader.readLine()) != null) 
+    {
+      HugeUnsignedInt temp = new HugeUnsignedInt(line);
+      //temp =temp.expo(this.e);
+      //temp = temp.mod(n);
+      pw.println(temp.toString());
+    }
+    pw.close();
+    bufferedReader.close();
   }
  
-  public void decrypt()
+  public void decrypt(String encryptFile, String keyFile,String outputFile)throws IOException, FileNotFoundException
   {
     //take the d and n value from the key file
     //output number = (input)^d mod n
+    File file = new File(encryptFile);
+    File out = new File(outputFile);
+    BufferedReader bufferedReader =  new BufferedReader(new FileReader(file));
+    PrintWriter pw = new PrintWriter(out);
+    String line;
+    while((line = bufferedReader.readLine()) != null) 
+    {
+      HugeUnsignedInt temp = new HugeUnsignedInt(line);
+      //temp =temp.expo(this.d);
+      //temp = temp.mod(n);
+      pw.println(temp.toString());
+    }
+    pw.close();
+    bufferedReader.close();
+  
   }
 }
