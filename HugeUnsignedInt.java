@@ -21,7 +21,6 @@ public class HugeUnsignedInt
       digits[i] = (byte) Character.getNumericValue(num.charAt(n-1-i));
     
     size = n;
-    
     this.removeLZ();
   }
   
@@ -173,8 +172,9 @@ public class HugeUnsignedInt
     }
     
     result.digits = difference;
-    result.size = 0;
-    result.cap = 0;
+    result.size = this.size; //change this?
+    result.cap = this.cap;
+    result.removeLZ();
     return result;
   }
   
@@ -317,7 +317,18 @@ public class HugeUnsignedInt
     String str = sum.toString();
     System.out.println(sum);
     
+    //remove leading zeroes
     HugeUnsignedInt lz = new HugeUnsignedInt("000002");
     lz.printNum();
+    
+    //test subtraction
+    HugeUnsignedInt dif = new HugeUnsignedInt(10000);
+    HugeUnsignedInt d2  = new HugeUnsignedInt(9);
+    dif = dif.subtract(d2);
+    dif.printNum();
+    
+    dif = new HugeUnsignedInt(101);
+    dif = dif.subtract(2);
+    dif.printNum();
   }
 }
