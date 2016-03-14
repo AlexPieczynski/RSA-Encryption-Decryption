@@ -37,13 +37,13 @@ public class RSAHandler
     //or 3 for basic codes and 65537 (which is 216 + 1) for more secure codes. <-- this sounds like a good lazy way I do this
     //actually sounds like a bad idea
    
-    e = 65537;
-    HugeUnsignedInt k=1;
+    e = new HugeUnsignedInt(65537);
+    HugeUnsignedInt k= new HugeUnsignedInt(1);
     
     HugeUnsignedInt loving =  ((l.multiply(k)).add(1)).modulus(e);
-    while (loving != 0)
+    while (loving.equals( new HugeUnsignedInt(0)) != true)
     {
-      k++;
+      k.add(1);
       loving =  ((l.multiply(k)).add(1)).modulus(e);
     }
     d = loving;
@@ -56,10 +56,10 @@ public class RSAHandler
   //generates a public-private key set and saves each to a separate file
   public void generateKeys()
   {
-    XMLWriter writer = new XMLWriter();
-    //need to make e,d, and n into strings.
-    //makePublicKey(e,n);
-    //makePrivateKey(d,n);
+    //look up how to make pretty XML files. then public is e and n, private is d and n
+    //XMLWriter writer = new XMLWriter();
+    //makePublicKey();
+    //makePrivateKey();
   }
  
  
@@ -72,41 +72,63 @@ public class RSAHandler
      * then add to another file?
      * 
      **/
-	  File file = new File(fileName);
-	  File blockedFile = new File("Blocked File");
-	  BufferedReader br = new BufferedReader(new FileReader(file));
-	  //File should have one line which is the large number
-	  String number = br.readLine();
-	  HugeUnsignedInt numToBeBlocked = new HugeUnsignedInt(number);
-	  int numOfNull = 0; //numToBeBlocked.modulus(blockSize);
-	  PrintWriter pw = new PrintWriter(blockedFile);
-	  for(int i = (numToBeBlocked.size);i > 0;i= (i-blockSize) )
-	  {
-		  //Need some way of accessing the numbers to split it up. Or is there some better way?
-		  String split = "";
-		  pw.println(split);
-		  
-	  }
-	  pw.close();
+   File file = new File(fileName);
+   File blockedFile = new File("Blocked File");
+   BufferedReader br = new BufferedReader(new FileReader(file));
+   //File should have one line which is the large number
+   String number = br.readLine();
+   HugeUnsignedInt numToBeBlocked = new HugeUnsignedInt(number);
+   int numOfNull = 0; //numToBeBlocked.modulus(blockSize);
+   PrintWriter pw = new PrintWriter(blockedFile);
+   for(int i = (numToBeBlocked.size);i > 0;i= (i-blockSize) )
+   {
+    //Need some way of accessing the numbers to split it up. Or is there some better way?
+    String split = "";
+    pw.println(split);
+    
+   }
+   pw.close();
   }
  
-  public void unblockFile(int blockSize, String fileName)
+  public void unblockFile(int blockSize, String fileName)throws IOException, FileNotFoundException 
   {
     /* When we read the line, the number is backwards. How to reverse it?
      * -just put the line into a string then keep adding it then make a HUI
      * WHAT IF WE HAVE LEADING 0 IN THE HUI ERROR
      * 
      * */
-	  File file = new File(fileName);
-	  
-	  
+   File file = new File(fileName);
+   String line;
+   String unblocked="";
+   String finalMessage = "";
+   BufferedReader bufferedReader =  new BufferedReader(new FileReader(file));
+   
+   while((line = bufferedReader.readLine()) != null) 
+   {
+     for(int i = 0; i < blockSize; i= i+2)
+     {
+       //get the ascii value?
+       String temp = line.substring(i,i+2);
+       int value = Integer.parseInt(temp);
+       unblocked = unblocked + Character.toString((char)value);
+     }
+     finalMessage = finalMessage + unblocked;
+   }   
+   
+   // Always close files.
+   bufferedReader.close(); 
+   
   }
  
   public void encrypt(String blockedFile, String keyFile, String outputFile)
   {
+    //take the e and n value from the key file
+    //output number = (input)^e mod n
   }
  
   public void decrypt()
   {
+    //take the d and n value from the key file
+    //output number = (input)^d mod n
   }
 }
