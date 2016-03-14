@@ -17,7 +17,6 @@ public class HugeUnsignedInt
     digits = new byte[cap];
     
     //fill array with digits, starting with ones place
-    //Hey alex what happens if the user adds leading 0? should we take care of that?
     for (int i=0; i < n; i++)
       digits[i] = (byte) Character.getNumericValue(num.charAt(n-1-i));
     
@@ -36,13 +35,16 @@ public class HugeUnsignedInt
   //removes leading zeros
   public void removeLZ()
   {
-    for (int i=0; i < this.size; i++){
+    int i;
+    for (i=0; i < this.size; i++){
       if (digits[size-1-i] != 0)
         break;
     }
     
     byte[] temp = new byte[cap];
-    //System.arraycopy(
+    System.arraycopy(this.digits, 0, temp, 0, size-i);
+    digits = temp;
+    size = size-i;
   }
   
   
@@ -315,6 +317,7 @@ public class HugeUnsignedInt
     String str = sum.toString();
     System.out.println(sum);
     
-    
+    HugeUnsignedInt lz = new HugeUnsignedInt("000002");
+    lz.printNum();
   }
 }
