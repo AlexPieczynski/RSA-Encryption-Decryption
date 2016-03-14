@@ -83,9 +83,13 @@ public class RSAHandler
    for(int i = (numToBeBlocked.size);i > 0;i= (i-blockSize) )
    {
     //Need some way of accessing the numbers to split it up. Or is there some better way?
+    //REDO THIS
     String split = numToBeBlocked.toString();
-    split.substring(i-2, i);
-    pw.println(split);
+    for(int j = 0; j<blockSize;j=j+2){
+      split.substring(i-2, i);
+      pw.println(split);
+    }
+    //add leading 00 if the blockSize is too large
     
    }
    pw.close();
