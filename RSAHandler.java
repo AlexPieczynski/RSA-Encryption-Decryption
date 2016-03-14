@@ -63,7 +63,7 @@ public class RSAHandler
   }
  
  
-  public void blockFile(int blockSize, String fileName)
+  public void blockFile(int blockSize, String fileName) throws IOException, FileNotFoundException 
   {
     /* First open the file and give it to a HUI
      * mod the HUI by the blocksize to see how many 00 we need to add
