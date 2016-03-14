@@ -57,9 +57,9 @@ public class RSAHandler
   public void generateKeys()
   {
     //look up how to make pretty XML files. then public is e and n, private is d and n
-    //XMLWriter writer = new XMLWriter();
-    //makePublicKey();
-    //makePrivateKey();
+    XMLWriter writer = new XMLWriter();
+    makePublicKey(e.toString(),n.toString());
+    makePrivateKey(d.toString(),n.toString());
   }
  
  
@@ -83,8 +83,13 @@ public class RSAHandler
    for(int i = (numToBeBlocked.size);i > 0;i= (i-blockSize) )
    {
     //Need some way of accessing the numbers to split it up. Or is there some better way?
-    String split = "";
-    pw.println(split);
+    //REDO THIS
+    String split = numToBeBlocked.toString();
+    for(int j = 0; j<blockSize;j=j+2){
+      split.substring(i-2, i);
+      pw.println(split);
+    }
+    //add leading 00 if the blockSize is too large
     
    }
    pw.close();
