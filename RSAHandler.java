@@ -83,7 +83,8 @@ public class RSAHandler
    for(int i = (numToBeBlocked.size);i > 0;i= (i-blockSize) )
    {
     //Need some way of accessing the numbers to split it up. Or is there some better way?
-    String split = "";
+    String split = numToBeBlocked.toString();
+    split.substring(i-2, i);
     pw.println(split);
     
    }
