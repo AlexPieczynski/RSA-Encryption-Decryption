@@ -57,9 +57,9 @@ public class RSAHandler
   public void generateKeys()
   {
     //look up how to make pretty XML files. then public is e and n, private is d and n
-    //XMLWriter writer = new XMLWriter();
-    //makePublicKey();
-    //makePrivateKey();
+    XMLWriter writer = new XMLWriter();
+    makePublicKey(e.toString(),n.toString());
+    makePrivateKey(d.toString(),n.toString());
   }
  
  
