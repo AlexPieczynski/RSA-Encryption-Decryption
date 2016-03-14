@@ -1,5 +1,10 @@
 /* class to hold large prime numbers, mostly for p and q values in RSA algorithms */
 
+import java.io.*;
+import java.util.Scanner;
+import java.util.Random;
+
+
 public class HugePrime extends HugeUnsignedInt
 {
   //constructs a huge prime from a string (entered by user)
@@ -8,7 +13,7 @@ public class HugePrime extends HugeUnsignedInt
   public HugePrime( String number )
   {
     super(number);
-    //check if prime
+    //check if prime?
   }
   
   
@@ -16,7 +21,28 @@ public class HugePrime extends HugeUnsignedInt
    *   a prime from a resource file */  
   public HugePrime()
   {
-    super("todo");
+    this(new HugePrime("0").primeFromFile());
+  }
+  
+  private String primeFromFile()
+  {
+    String prime = "1";
+    try{      
+      File file = new File("primeNumbers.rsc");
+      Scanner sc = new Scanner(file);
+      
+      Random rand = new Random();
+      int r = rand.nextInt(20); // random int [0,20)
+      
+      for (int i=0; i < r; i++) //skip past r-1 lines
+        sc.nextLine();
+      
+      prime = sc.next();
+    }
+    catch (FileNotFoundException fnfe){
+      System.out.println("FILE NOT FOUND");
+    }
+    return prime;
   }
   
   

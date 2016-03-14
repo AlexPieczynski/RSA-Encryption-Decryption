@@ -66,6 +66,8 @@ public class HugeUnsignedInt
         c = s/10;
         s = s%10;
       }
+      else
+        c = 0;
       sum[i] = (byte) s; 
     }
     
@@ -111,6 +113,25 @@ public class HugeUnsignedInt
     if (this.isLessThan(b))
       return new HugeUnsignedInt(0);
     
+    HugeUnsignedInt result = new HugeUnsignedInt(0);
+    byte[] difference = new byte[this.cap]; //size of result array 
+    
+    int d = 0; //difference betweens digits and carry
+    int c = 0; //carry
+    
+    int n = b.size; //number of digits to loop through
+    int i;
+    for (i=0; i < n; i++){
+      d = this.digits[i] - b.digits[i] - c;
+      if (d < 0){
+        d = d+10;
+        c = 1;
+      }
+      else
+        c = 0;
+      
+      difference[i] = (byte) d;
+    }
     return b;
   }
   
