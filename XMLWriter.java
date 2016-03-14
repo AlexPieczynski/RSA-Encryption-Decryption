@@ -42,12 +42,19 @@ public class XMLWriter
     
     bw.write("<rsakey>");
     bw.newLine();
-    
-    bw.write("    <evalue>");
-    bw.write(e); //put your number as a string here
-    bw.write("</evalue>");
-    bw.newLine();
-    
+    if(isPrivate)
+    {
+      bw.write("    <dvalue>");
+      bw.write(e); //put your number as a string here
+      bw.write("</dvalue>");
+      bw.newLine();
+    }
+    else{
+      bw.write("    <evalue>");
+      bw.write(e); //put your number as a string here
+      bw.write("</evalue>");
+      bw.newLine();
+    }
     bw.write("    <nvalue>");
     bw.write(n); //put your number as a string here
     bw.write("</nvalue>");
