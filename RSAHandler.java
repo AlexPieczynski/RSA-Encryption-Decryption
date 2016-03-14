@@ -41,7 +41,7 @@ public class RSAHandler
     HugeUnsignedInt k= new HugeUnsignedInt(1);
     
     HugeUnsignedInt loving =  ((l.multiply(k)).add(1)).modulus(e);
-    while (loving.equals( new HugeUnsignedInt(0)) != true)
+    while (loving.equals(0) != true)
     {
       k.add(1);
       loving =  ((l.multiply(k)).add(1)).modulus(e);

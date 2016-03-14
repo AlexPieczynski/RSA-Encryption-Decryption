@@ -1,4 +1,5 @@
 /* Class to represent unsigned integers too large to fit into Java primative data types */
+import java.util.Arrays;
 
 public class HugeUnsignedInt
 {
@@ -25,11 +26,18 @@ public class HugeUnsignedInt
   
   //converts integer parameter to a string, then calls other constructor
   //mainly used to quickly convert int to HugeUnsignedInt for calculations
-  public HugeUnsignedInt( int num )
-  {
+  public HugeUnsignedInt( int num ){
     this(String.valueOf(num));
   }
   
+  
+  //returns String representation of HugeUnsignedInt
+  public String toString()
+  {
+    byte[] temp = new byte[this.size];
+    System.arraycopy( this.digits, 0, temp, 0, this.size);
+    return Arrays.toString(temp);
+  }
   
   //adds two HugeUnsignedInts, returns result
   //TODO: perhaps change parameter to int, making int constructor unnecessary?
@@ -168,6 +176,10 @@ public class HugeUnsignedInt
   }
   
   
+  public boolean equals( int b ){
+    return this.equals(new HugeUnsignedInt(b));
+  }
+  
   //returns true if two HUI are the same, false if not
   public boolean equals( HugeUnsignedInt b )
   {
@@ -182,6 +194,10 @@ public class HugeUnsignedInt
     return false;
   }
   
+  
+  public boolean isLessThan( int b ){
+    return this.isLessThan(new HugeUnsignedInt(b));
+  }
   
   //returns true if caller is less than parameter
   public boolean isLessThan( HugeUnsignedInt b )
@@ -199,6 +215,10 @@ public class HugeUnsignedInt
     }
   }
   
+  
+  public boolean isGreaterThan( int b ){
+    return this.isGreaterThan(new HugeUnsignedInt(b));
+  }
   
   //returns true if caller is greater than parameter
   public boolean isGreaterThan( HugeUnsignedInt b )
