@@ -53,4 +53,17 @@ public class HugePrime extends HugeUnsignedInt
   {
     return true;
   }
+  
+  
+  //test code
+  public static void main (String[] args)
+  {
+    //generate random primes from file
+    HugePrime p = new HugePrime();
+    HugePrime p2 = new HugePrime();
+    p.printNum();
+    p2.printNum();
+    
+    
+  }
 }

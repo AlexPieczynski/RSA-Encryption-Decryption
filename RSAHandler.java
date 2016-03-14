@@ -58,8 +58,8 @@ public class RSAHandler
   {
     //look up how to make pretty XML files. then public is e and n, private is d and n
     XMLWriter writer = new XMLWriter();
-    makePublicKey(e.toString(),n.toString());
-    makePrivateKey(d.toString(),n.toString());
+    writer.makePublicKey(e.toString(),n.toString());
+    writer.makePrivateKey(d.toString(),n.toString());
   }
  
  

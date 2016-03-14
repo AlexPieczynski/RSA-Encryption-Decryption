@@ -22,6 +22,8 @@ public class HugeUnsignedInt
       digits[i] = (byte) Character.getNumericValue(num.charAt(n-1-i));
     
     size = n;
+    
+    this.removeLZ();
   }
   
   //converts integer parameter to a string, then calls other constructor
@@ -31,12 +33,27 @@ public class HugeUnsignedInt
   }
   
   
+  //removes leading zeros
+  public void removeLZ()
+  {
+    for (int i=0; i < this.size; i++){
+      if (digits[size-1-i] != 0)
+        break;
+    }
+    
+    byte[] temp = new byte[cap];
+    //System.arraycopy(
+  }
+  
+  
   //returns String representation of HugeUnsignedInt
   public String toString()
   {
-    byte[] temp = new byte[this.size];
-    System.arraycopy( this.digits, 0, temp, 0, this.size);
-    return Arrays.toString(temp);
+    StringBuilder builder = new StringBuilder();
+    for (int i=0; i < this.size; i++){
+      builder.insert(0, this.digits[i]);
+    }
+    return builder.toString();
   }
   
   //adds two HugeUnsignedInts, returns result
@@ -76,6 +93,7 @@ public class HugeUnsignedInt
       }
       else
         c = 0;
+
       sum[i] = (byte) s; 
     }
     
@@ -135,12 +153,27 @@ public class HugeUnsignedInt
         d = d+10;
         c = 1;
       }
-      else
+      else{
         c = 0;
-      
+      }
       difference[i] = (byte) d;
     }
-    return b;
+    
+    n = this.size;
+    //fill in rest of array
+    for (; i < n && c > 0; i++){
+      d = this.digits[i] - c;
+      if (d < 0){
+        d = d+10;
+        c = 1;
+      }
+      difference[i] = (byte) d; 
+    }
+    
+    result.digits = difference;
+    result.size = 0;
+    result.cap = 0;
+    return result;
   }
   
   public HugeUnsignedInt multiply( int b ){
@@ -274,11 +307,13 @@ public class HugeUnsignedInt
     
     //test addition
     HugeUnsignedInt sum = new HugeUnsignedInt("123");
-    sum.add(new HugeUnsignedInt("123123"));
+    sum = sum.add(new HugeUnsignedInt("123123"));
     sum.printNum();    
     sum = new HugeUnsignedInt("99999999999999999999999999999999");
-    sum.add(new HugeUnsignedInt(1));
+    sum = sum.add(new HugeUnsignedInt(1));
     sum.printNum();
+    String str = sum.toString();
+    System.out.println(sum);
     
     
   }
