@@ -184,7 +184,30 @@ public class HugeUnsignedInt
   
   public HugeUnsignedInt multiply( HugeUnsignedInt b )
   {
-    return b;
+    byte[] mul = new byte[(this.size + b.size) ];
+    for(int i = 0; i < (this.size + b.size) ;i++)
+    {
+      mul[i] = 0;
+    }
+    for(int i = 0; i < b.size; i++)
+    {
+      for(int j = 0; j < this.size; j++)
+      {
+        int s = this.digits[j] * b.digits[i];
+        int a = s %10;
+        int c = s/10;
+        
+        mul[i+j] +=  (byte)a;
+        mul[i+j+1] += (byte)c;
+      }
+    }
+    StringBuilder builder = new StringBuilder();
+    for (int i=0; i < this.size; i++){
+      builder.insert(0, mul[i]);
+    }
+    String derp = builder.toString();
+    HugeUnsignedInt d = new HugeUnsignedInt(derp);
+    return d;
   }
   
   
