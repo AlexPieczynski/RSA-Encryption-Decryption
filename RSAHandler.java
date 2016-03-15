@@ -81,7 +81,7 @@ public class RSAHandler
    HugeUnsignedInt numToBeBlocked = new HugeUnsignedInt(number);
    int numOfNull = 0; //numToBeBlocked.modulus(blockSize);
    PrintWriter pw = new PrintWriter(blockedFile);
-   System.out.println("help");
+   
    /**
    for(int i = (numToBeBlocked.size);i > 0;i= (i-blockSize) )
    {
@@ -101,7 +101,7 @@ public class RSAHandler
    if(numLeadingZero!=0)
    {
      //int zeros = blockSize - numLeadingZero;
-     System.out.println(numLeadingZero);
+     
      while(numLeadingZero != 0)
      {
        zero = zero + "0";
@@ -110,11 +110,11 @@ public class RSAHandler
    }
    String split = numToBeBlocked.toString();
    split = zero + split;
-   System.out.println(split);
+   
    int start = split.length()- (blockSize*2);
    int end = split.length() ;
    int derpd = (split.length() % (blockSize*2));
-   System.out.println(derpd);
+  
    for(int i = 0;i < (split.length() / (blockSize*2)) ; i++)
    {
      String temp = "";
@@ -141,6 +141,7 @@ public class RSAHandler
    
    while((line = bufferedReader.readLine()) != null) 
    {
+     //THIS DOES NOT WORK
      for(int i = 0; i < blockSize; i= i+2)
      {
        //get the ascii value?
