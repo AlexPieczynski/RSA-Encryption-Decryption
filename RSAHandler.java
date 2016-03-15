@@ -18,9 +18,12 @@ public class RSAHandler
   private HugeUnsignedInt d;
 
  
-  public RSAHandler (HugePrime p, HugePrime q)
+  public RSAHandler ()
+  {}
+  
+  //calculate e,d, n values
+  public void calcValues(HugePrime p, HugePrime q)
   {
-   
     this.p = p;
     this.q = q;
     n = p.multiply(q);
@@ -47,11 +50,7 @@ public class RSAHandler
       loving =  ((l.multiply(k)).add(1)).modulus(e);
     }
     d = loving;
-   
-   
   }
- 
-  
  
   //generates a public-private key set and saves each to a separate file
   public void generateKeys()

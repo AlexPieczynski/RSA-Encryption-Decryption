@@ -36,6 +36,8 @@ public class MainGUI extends JFrame
     
     this.setJMenuBar(menuBar);
     this.setSize(500,500);
+    
+    rsa = new RSAHandler();
   }
   
   
@@ -66,7 +68,7 @@ public class MainGUI extends JFrame
           q = new HugePrime();
         }
         
-        rsa = new RSAHandler(p,q);
+        rsa.calcValues(p,q);
         rsa.generateKeys();
       }
    }
@@ -75,7 +77,7 @@ public class MainGUI extends JFrame
   private class BlockHandler implements ActionListener {
       public void actionPerformed( ActionEvent event )
       {
-        rsa = new RSAHandler(new HugePrime(), new HugePrime());
+        rsa = new RSAHandler();
         String fname = JOptionPane.showInputDialog("Please enter the name of the file to be blocked");
         String blockSize = JOptionPane.showInputDialog("Please enter in a block size");
         try{
@@ -94,7 +96,6 @@ public class MainGUI extends JFrame
   private class UnblockHandler implements ActionListener {
       public void actionPerformed( ActionEvent event )
       {
-        rsa = new RSAHandler(new HugePrime(), new HugePrime());
         String fname = JOptionPane.showInputDialog("Please enter the name of the file to be unblocked");
         String blockSize = JOptionPane.showInputDialog("Please enter in the block size");
         try{
@@ -113,7 +114,6 @@ public class MainGUI extends JFrame
   private class EndeHandler implements ActionListener {
       public void actionPerformed( ActionEvent event )
       {
-        rsa = new RSAHandler(new HugePrime(), new HugePrime());
         String inFile = JOptionPane.showInputDialog("Please enter the name of the file to be encrypted/decrypted");
         String keyFile = JOptionPane.showInputDialog("Please enter the name of the RSA key file");
         String outFile = JOptionPane.showInputDialog("Please enter the name output file");
