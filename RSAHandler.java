@@ -71,35 +71,57 @@ public class RSAHandler
      * then add to another file?
      * 
      **/
+    
    File file = new File(fileName);
-   File blockedFile = new File("Blocked File");
+   File blockedFile = new File(outputFile);
    BufferedReader br = new BufferedReader(new FileReader(file));
    //File should have one line which is the large number
    String number = br.readLine();
+   br.close()
    HugeUnsignedInt numToBeBlocked = new HugeUnsignedInt(number);
    int numOfNull = 0; //numToBeBlocked.modulus(blockSize);
    PrintWriter pw = new PrintWriter(blockedFile);
-   int numLeadingZero = ((numToBeBlocked.size /2)%blockSize);
+   System.out.println("help");
+   /**
+   for(int i = (numToBeBlocked.size);i > 0;i= (i-blockSize) )
+   {
+    //Need some way of accessing the numbers to split it up. Or is there some better way?
+    //REDO THIS
+    String split = numToBeBlocked.toString();
+    for(int j = 0; j<blockSize;j=j+2){
+      split.substring(i-2, i);
+      pw.println(split);
+    }
+    //add leading 00 if the blockSize is too large
+    
+   }
+   **/
+   int numLeadingZero = ((numToBeBlocked.size)%(blockSize*2));
    String zero = "";
    if(numLeadingZero!=0)
    {
-     int zeros = blockSize - numLeadingZero;
-     
-     while(zeros != 0)
+     //int zeros = blockSize - numLeadingZero;
+     System.out.println(numLeadingZero);
+     while(numLeadingZero != 0)
      {
-       zero = zero + "00";
-       zeros--;
+       zero = zero + "0";
+       numLeadingZero--;
      }
    }
-   for(int i = numToBeBlocked.size;i > 0; i = i-(2*blockSize))
+   String split = numToBeBlocked.toString();
+   split = zero + split;
+   System.out.println(split);
+   int start = split.length()- (blockSize*2);
+   int end = split.length() ;
+   int derpd = (split.length() % (blockSize*2));
+   System.out.println(derpd);
+   for(int i = 0;i < (split.length() / (blockSize*2)) ; i++)
    {
-     String split = numToBeBlocked.toString();
-     split.substring((i-(2*blockSize)),i+1);
-     if(split.length() != blockSize*2)
-     {
-       split = zero + split;
-     }
-     pw.println(split);
+     String temp = "";
+     temp = split.substring(start,end);
+     start = start - (blockSize*2);
+     end = end -  (blockSize*2);
+     pw.println(temp);
    }
    pw.close();
   }
