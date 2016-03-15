@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 
 public class MainGUI extends JFrame
 {  
@@ -19,13 +20,13 @@ public class MainGUI extends JFrame
     menuBar = new JMenuBar();
     menu = new JMenu("RSA");
     key = new JMenuItem("Key Creation");
-    key.addActionListener( new MenuHandler() );
+    key.addActionListener( new KeyHandler() );
     block = new JMenuItem("Block A File");
-    block.addActionListener( new MenuHandler() );
+    block.addActionListener( new BlockHandler() );
     unblock = new JMenuItem("Unblock a file");
-    unblock.addActionListener( new MenuHandler() );
+    unblock.addActionListener( new UnblockHandler() );
     ende = new JMenuItem("Encrypt/Decrypt");
-    ende.addActionListener( new MenuHandler() );
+    ende.addActionListener( new EndeHandler() );
     
     menuBar.add(menu);
     menu.add(key);
@@ -37,17 +38,100 @@ public class MainGUI extends JFrame
     this.setSize(500,500);
   }
   
-  private class MenuHandler implements ActionListener {
-
-      // just seeing if the handler works
+  
+  //Key menu item. Generates keys and saves them to a file
+  private class KeyHandler implements ActionListener {
       public void actionPerformed( ActionEvent event )
       {
-        JMenuItem temp = (JMenuItem) event.getSource();
-         JOptionPane.showMessageDialog( MainGUI.this,
-            "You pressed: " + event.getActionCommand() + " " + temp.getText() );
+        HugePrime p,q;
+        String input;
+        int opt = JOptionPane.showConfirmDialog(null, "Would you like to enter a prime? A random prime will be chosen otherwise.",
+                                      "Prime Number Generation", JOptionPane.YES_NO_OPTION);
+        
+        if (opt == 0){ //user said yes, they enter a prime number
+          do{
+            input = JOptionPane.showInputDialog("Please enter in a prime number p");
+            p = new HugePrime(input);
+          }
+          while (!p.isPrime());
+          
+          do{
+            input = JOptionPane.showInputDialog("Please enter in a prime number q");
+            q = new HugePrime(input);
+          }
+          while (!q.isPrime());
+        }
+        else{ //choose prime randomly
+          p = new HugePrime();
+          q = new HugePrime();
+        }
+        
+        rsa = new RSAHandler(p,q);
+        rsa.generateKeys();
       }
-
    }
+  
+  
+  private class BlockHandler implements ActionListener {
+      public void actionPerformed( ActionEvent event )
+      {
+        rsa = new RSAHandler(new HugePrime(), new HugePrime());
+        String fname = JOptionPane.showInputDialog("Please enter the name of the file to be blocked");
+        String blockSize = JOptionPane.showInputDialog("Please enter in a block size");
+        try{
+          rsa.blockFile(Integer.parseInt(blockSize), fname);
+        }
+        catch(FileNotFoundException fnfe){
+          System.out.println("FILE NOT FOUND");
+        }
+        catch(IOException e){
+          System.out.println("catch IOException");
+        }
+      }
+  }
+  
+  
+  private class UnblockHandler implements ActionListener {
+      public void actionPerformed( ActionEvent event )
+      {
+        rsa = new RSAHandler(new HugePrime(), new HugePrime());
+        String fname = JOptionPane.showInputDialog("Please enter the name of the file to be unblocked");
+        String blockSize = JOptionPane.showInputDialog("Please enter in the block size");
+        try{
+          rsa.unblockFile(Integer.parseInt(blockSize), fname);
+        }
+        catch(FileNotFoundException fnfe){
+          System.out.println("FILE NOT FOUND");
+        }
+        catch(IOException e){
+          System.out.println("catch IOException");
+        }
+      }
+  }
+  
+  
+  private class EndeHandler implements ActionListener {
+      public void actionPerformed( ActionEvent event )
+      {
+        rsa = new RSAHandler(new HugePrime(), new HugePrime());
+        String inFile = JOptionPane.showInputDialog("Please enter the name of the file to be encrypted/decrypted");
+        String keyFile = JOptionPane.showInputDialog("Please enter the name of the RSA key file");
+        String outFile = JOptionPane.showInputDialog("Please enter the name output file");
+        
+        try{
+          rsa.encrypt(inFile, keyFile, outFile);
+        }
+        catch(FileNotFoundException fnfe){
+          System.out.println("FILE NOT FOUND");
+        }
+        catch(IOException e){
+          System.out.println("catch IOException");
+        }
+      }
+  }
+  
+  
+
   public static void main (String[] args)
   {
     MainGUI window = new MainGUI();
