@@ -37,6 +37,7 @@ public class XMLWriter
     
     try{
     File file = new File(fname);
+    file.createNewFile();
     FileWriter fw = new FileWriter(file.getAbsoluteFile());
     BufferedWriter bw = new BufferedWriter(fw);
     
@@ -61,9 +62,19 @@ public class XMLWriter
     bw.newLine();
     
     bw.write("</rsakey");
+    bw.close();
     }
     catch(IOException exp){
       exp.printStackTrace();
     }
+  }
+  
+  
+  //test XMLWriter
+  public static void main(String[] args)
+  {
+    XMLWriter xw = new XMLWriter();
+    xw.makePrivateKey("123","456");
+    xw.makePublicKey("123","456");    
   }
 }
