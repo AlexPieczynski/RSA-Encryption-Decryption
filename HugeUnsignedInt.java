@@ -205,8 +205,13 @@ public class HugeUnsignedInt
           a=s%10;
           c=0;
         }
-        mul[i+j] +=  (byte)a;
-        mul[i+j+1] += (byte)c;
+        mul[i+j]+= a;
+        mul[i+j+1]+=c;
+        while(mul[i+j] >=10)
+        {
+          mul[i+j+1] += mul[i+j] /10;
+          mul[i+j] = (byte)( mul[i+j]%10);
+        }
         
       }
     }
