@@ -40,13 +40,8 @@ public class RSAHandler
     //or 3 for basic codes and 65537 (which is 216 + 1) for more secure codes. <-- this sounds like a good lazy way I do this
     //actually sounds like a bad idea
    
-   //how should the user enter the random values for e and d?
-    //also have to use euclidean to find e. do we have to implement in HUI?
-    //or 3 for basic codes and 65537 (which is 216 + 1) for more secure codes. <-- this sounds like a good lazy way I do this
-    //actually sounds like a bad idea
-   
     e = new HugeUnsignedInt(7);
-    HugeUnsignedInt k= new HugeUnsignedInt(351812273291173183);
+    HugeUnsignedInt k= new HugeUnsignedInt("351812273291173183");
     /**
     HugeUnsignedInt loving =  ((l.multiply(k)).add(1)).modulus(e);
     while (loving.equals(0) != true)
@@ -68,7 +63,7 @@ public class RSAHandler
   }
  
  
-public void blockFile(int blockSize, String fileName, String outputFile) throws IOException, FileNotFoundException 
+ public void blockFile(int blockSize, String fileName, String outputFile) throws IOException, FileNotFoundException 
   {
     /* First open the file and give it to a HUI
      * mod the HUI by the blocksize to see how many 00 we need to add
@@ -180,7 +175,6 @@ public void blockFile(int blockSize, String fileName, String outputFile) throws 
    pw.close();
    
   }
-   
  
  public void encrypt(String blockedFile, String keyFile, String outputFile)throws IOException, FileNotFoundException
   {
@@ -195,8 +189,12 @@ public void blockFile(int blockSize, String fileName, String outputFile) throws 
     while((line = bufferedReader.readLine()) != null) 
     {
       HugeUnsignedInt temp = new HugeUnsignedInt(line);
+      for(int i = 0; i < 7;i++)
+      {
+        temp= temp.multiply(temp);
+      }
       //temp =temp.expo(this.e);
-      //temp = temp.mod(n);
+      temp = temp.modulus(n);
       pw.println(temp.toString());
     }
     pw.close();
@@ -222,5 +220,20 @@ public void blockFile(int blockSize, String fileName, String outputFile) throws 
     pw.close();
     bufferedReader.close();
   
+  }
+
+  public static void main(String args[]) throws IOException, FileNotFoundException
+  {
+    HugePrime p = new HugePrime("2");
+    HugePrime q = new HugePrime("3");
+    
+    RSAHandler n = new RSAHandler();
+        
+    //blockFile(int blockSize, String fileName, String outputFile)
+   
+         n.blockFile(8,"tobeblocked","hatelife4");
+         n.unblockFile(8,"hatelife4","lovelife4");
+
+     
   }
 }
