@@ -80,8 +80,9 @@ public class MainGUI extends JFrame
         rsa = new RSAHandler();
         String fname = JOptionPane.showInputDialog("Please enter the name of the file to be blocked");
         String blockSize = JOptionPane.showInputDialog("Please enter in a block size");
+        String outputFile =JOptionPane.showInputDialog("Please enter the name of the output file");
         try{
-          rsa.blockFile(Integer.parseInt(blockSize), fname);
+          rsa.blockFile(Integer.parseInt(blockSize), fname,outputFile);
         }
         catch(FileNotFoundException fnfe){
           System.out.println("FILE NOT FOUND");
@@ -98,8 +99,10 @@ public class MainGUI extends JFrame
       {
         String fname = JOptionPane.showInputDialog("Please enter the name of the file to be unblocked");
         String blockSize = JOptionPane.showInputDialog("Please enter in the block size");
+        String outputFile =JOptionPane.showInputDialog("Please enter the name of the output file");
+        
         try{
-          rsa.unblockFile(Integer.parseInt(blockSize), fname);
+          rsa.unblockFile(Integer.parseInt(blockSize), fname,outputFile);
         }
         catch(FileNotFoundException fnfe){
           System.out.println("FILE NOT FOUND");
