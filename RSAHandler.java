@@ -127,33 +127,50 @@ public class RSAHandler
   }
  
   public void unblockFile(int blockSize, String fileName)throws IOException, FileNotFoundException 
-  {
+   {
     /* When we read the line, the number is backwards. How to reverse it?
      * -just put the line into a string then keep adding it then make a HUI
      * WHAT IF WE HAVE LEADING 0 IN THE HUI ERROR
      * 
      * */
    File file = new File(fileName);
+   File blockedFile = new File(output);
    String line;
    String unblocked="";
    String finalMessage = "";
    BufferedReader bufferedReader =  new BufferedReader(new FileReader(file));
+   PrintWriter pw = new PrintWriter(blockedFile);
    
    while((line = bufferedReader.readLine()) != null) 
    {
-     //THIS DOES NOT WORK
-     for(int i = 0; i < blockSize; i= i+2)
-     {
-       //get the ascii value?
-       String temp = line.substring(i,i+2);
-       int value = Integer.parseInt(temp);
-       unblocked = unblocked + Character.toString((char)value);
-     }
-     finalMessage = finalMessage + unblocked;
+     finalMessage =line+ finalMessage;
    }   
+   //pw.println(finalMessage);
+   /**
+    * IF WE NEED THE ACTUAL MESSAGE AND NOT JUST THE HUI
+    ***//
+   int start =0;
+   int end = 2;
+   String realMessage = "";
+   for(int i = 0; i < finalMessage.length();i=i+2)
+   {
+     String temp = finalMessage.substring(start,end);
+     
+     int to = Integer.parseInt(temp);
+     
+     start+=2;
+     end+=2;
+     to+=27;
+     
+     char c = (char) to; 
+     realMessage = c + realMessage;
+     
+   }
+   pw.println(realMessage);
    
    // Always close files.
    bufferedReader.close(); 
+   pw.close();
    
   }
  
