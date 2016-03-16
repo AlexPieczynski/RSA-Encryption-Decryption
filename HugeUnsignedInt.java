@@ -274,16 +274,8 @@ public class HugeUnsignedInt
     for (i=0; i < n; i++){
       nd = temp.toString().concat(this.getIthDigit(i));
       temp = new HugeUnsignedInt(nd);
-      //System.out.print("no sub yet ");
-      //temp.printNum();
       for (j=0; temp.isGreaterThan(b) || temp.equals(b); j++){ //count how many times divisor goes into temp
-        //System.out.print("temp before sub is ");
-        //temp.printNum();
         temp = temp.subtract(b);
-        //System.out.print("temp after sub is ");
-        //temp.printNum();
-        //if (!temp.isGreaterThan(b))
-        //  System.out.println("next call will fail");
       }
       //System.out.println("j is " + j);
       quotient[n-1-i] = (byte) j;      
@@ -305,13 +297,11 @@ public class HugeUnsignedInt
   {
     //throw exception?
     if (b.equals(new HugeUnsignedInt(0))){
-      System.out.println("DIVIDE BY ZERO ERROR");
+      System.out.println("MOD BY ZERO ERROR");
       return this;
     }
-    //maybe add check to see if divisor is larger than dividend? result will be zero
     
     int newCap = this.cap;
-    byte[] quotient = new byte[newCap];
     
     int i,j;
     HugeUnsignedInt temp = new HugeUnsignedInt(0);
@@ -321,8 +311,7 @@ public class HugeUnsignedInt
       nd = temp.toString().concat(this.getIthDigit(i));
       temp = new HugeUnsignedInt(nd);
       for (j=0; temp.isGreaterThan(b) || temp.equals(b); j++) //count how many times divisor goes into temp
-        temp = temp.subtract(b);
-      quotient[n-1-i] = (byte) j;      
+        temp = temp.subtract(b);    
     }
     
     return new HugeUnsignedInt(temp.toString());
