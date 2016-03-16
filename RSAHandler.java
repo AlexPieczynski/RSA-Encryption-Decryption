@@ -18,12 +18,9 @@ public class RSAHandler
   private HugeUnsignedInt d;
 
  
-  public RSAHandler ()
-  {}
-  
-  //calculate e,d, n values
-  public void calcValues(HugePrime p, HugePrime q)
+  public RSAHandler (HugePrime p, HugePrime q)
   {
+   
     this.p = p;
     this.q = q;
     n = p.multiply(q);
@@ -40,29 +37,35 @@ public class RSAHandler
     //or 3 for basic codes and 65537 (which is 216 + 1) for more secure codes. <-- this sounds like a good lazy way I do this
     //actually sounds like a bad idea
    
-    e = new HugeUnsignedInt(65537);
+    e = new HugeUnsignedInt(7);
     HugeUnsignedInt k= new HugeUnsignedInt(1);
-    
+        
     HugeUnsignedInt loving =  ((l.multiply(k)).add(1)).modulus(e);
-    while (loving.equals(0) != true)
+        
+        /**
+    while (loving.equals( new HugeUnsignedInt(0)) != true)
     {
       k.add(1);
       loving =  ((l.multiply(k)).add(1)).modulus(e);
     }
     d = loving;
+       System.out.println("what4");
+   **/
   }
+ 
+  
  
   //generates a public-private key set and saves each to a separate file
   public void generateKeys()
   {
     //look up how to make pretty XML files. then public is e and n, private is d and n
-    XMLWriter writer = new XMLWriter();
-    writer.makePublicKey(e.toString(),n.toString());
-    writer.makePrivateKey(d.toString(),n.toString());
+    //XMLWriter writer = new XMLWriter();
+    //makePublicKey();
+    //makePrivateKey();
   }
  
  
-  public void blockFile(int blockSize, String fileName) throws IOException, FileNotFoundException 
+  public void blockFile(int blockSize, String fileName, String outputFile) throws IOException, FileNotFoundException 
   {
     /* First open the file and give it to a HUI
      * mod the HUI by the blocksize to see how many 00 we need to add
@@ -77,7 +80,7 @@ public class RSAHandler
    BufferedReader br = new BufferedReader(new FileReader(file));
    //File should have one line which is the large number
    String number = br.readLine();
-   br.close()
+   br.close();
    HugeUnsignedInt numToBeBlocked = new HugeUnsignedInt(number);
    int numOfNull = 0; //numToBeBlocked.modulus(blockSize);
    PrintWriter pw = new PrintWriter(blockedFile);
@@ -101,7 +104,7 @@ public class RSAHandler
    if(numLeadingZero!=0)
    {
      //int zeros = blockSize - numLeadingZero;
-     
+    
      while(numLeadingZero != 0)
      {
        zero = zero + "0";
@@ -110,11 +113,11 @@ public class RSAHandler
    }
    String split = numToBeBlocked.toString();
    split = zero + split;
-   
+  
    int start = split.length()- (blockSize*2);
    int end = split.length() ;
-   int derpd = (split.length() % (blockSize*2));
-  
+   
+   
    for(int i = 0;i < (split.length() / (blockSize*2)) ; i++)
    {
      String temp = "";
@@ -126,8 +129,8 @@ public class RSAHandler
    pw.close();
   }
  
-  public void unblockFile(int blockSize, String fileName)throws IOException, FileNotFoundException 
-   {
+  public void unblockFile(int blockSize, String fileName,String output)throws IOException, FileNotFoundException 
+  {
     /* When we read the line, the number is backwards. How to reverse it?
      * -just put the line into a string then keep adding it then make a HUI
      * WHAT IF WE HAVE LEADING 0 IN THE HUI ERROR
@@ -146,9 +149,6 @@ public class RSAHandler
      finalMessage =line+ finalMessage;
    }   
    //pw.println(finalMessage);
-   /**
-    * IF WE NEED THE ACTUAL MESSAGE AND NOT JUST THE HUI
-    ***//
    int start =0;
    int end = 2;
    String realMessage = "";
@@ -174,7 +174,7 @@ public class RSAHandler
    
   }
  
- public void encrypt(String blockedFile, String keyFile, String outputFile)throws IOException, FileNotFoundException
+  public void encrypt(String blockedFile, String keyFile, String outputFile)throws IOException, FileNotFoundException
   {
     //take the e and n value from the key file
     //take in lines from file to be the input
