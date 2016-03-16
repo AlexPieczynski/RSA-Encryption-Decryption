@@ -62,7 +62,7 @@ public class RSAHandler
   }
  
  
- public void blockFile(int blockSize, String fileName, String outputFile) throws IOException, FileNotFoundException 
+public void blockFile(int blockSize, String fileName, String outputFile) throws IOException, FileNotFoundException 
   {
     /* First open the file and give it to a HUI
      * mod the HUI by the blocksize to see how many 00 we need to add
@@ -72,8 +72,8 @@ public class RSAHandler
      * 
      **/
     
-   File file = new File(fileName);
-   File blockedFile = new File(outputFile);
+   File file = new File(fileName+".txt");
+   File blockedFile = new File(outputFile+".txt");
    BufferedReader br = new BufferedReader(new FileReader(file));
    //File should have one line which is the large number
    String number = br.readLine();
@@ -133,8 +133,8 @@ public class RSAHandler
      * WHAT IF WE HAVE LEADING 0 IN THE HUI ERROR
      * 
      * */
-   File file = new File(fileName);
-   File blockedFile = new File(output);
+   File file = new File(fileName+".txt");
+   File blockedFile = new File(output+".txt");
    String line;
    String unblocked="";
    String finalMessage = "";
@@ -145,6 +145,8 @@ public class RSAHandler
    {
      finalMessage =line+ finalMessage;
    }   
+   HugeUnsignedInt temp1 = new HugeUnsignedInt(finalMessage);
+   finalMessage = temp1.toString();
    //pw.println(finalMessage);
    int start =0;
    int end = 2;
@@ -163,6 +165,15 @@ public class RSAHandler
      realMessage = c + realMessage;
      
    }
+   System.out.println(finalMessage);
+   System.out.println(realMessage);
+   pw.println(realMessage);
+   
+   // Always close files.
+   bufferedReader.close(); 
+   pw.close();
+   
+  }
    pw.println(realMessage);
    
    // Always close files.
