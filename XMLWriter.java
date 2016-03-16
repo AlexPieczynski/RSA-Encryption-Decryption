@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Scanner;
 
 /* 1. Create instance of XMLWriter
  * 2. call makePublicKey or makePrivateKey with e and n values as paramter
@@ -70,11 +71,67 @@ public class XMLWriter
   }
   
   
+  //gets private key values d and n from an XML file
+  //stores them in the parameter RSAHandler's data members
+  public void getPrivateKey( RSAHandler rsa )
+  {
+    try{
+      File file = new File("prikey.xml");
+      Scanner sc = new Scanner(file);
+      
+      sc.nextLine(); //skip first line
+      String d = sc.next();
+      int stopAt = d.lastIndexOf("</dvalue>");
+      d = d.substring(8, stopAt);
+      
+      String n = sc.next();
+      stopAt = n.lastIndexOf("</nvalue>");
+      n = n.substring(8, stopAt);
+      
+      HugeUnsignedInt dVal = new HugeUnsignedInt(d);
+      HugeUnsignedInt nVal = new HugeUnsignedInt(n);
+      rsa.setPriKeyValues(dVal, nVal);
+    }
+    catch (FileNotFoundException fnfe){
+      System.out.println("FILE NOT FOUND");
+    }
+  }
+  
+  //gets public key values e and n from an XML file
+  //stores them in the parameter RSAHandler's data members
+  public void getPublicKey( RSAHandler rsa )
+  {
+    try{
+      File file = new File("pubkey.xml");
+      Scanner sc = new Scanner(file);
+      
+      sc.nextLine(); //skip first line
+      String e = sc.next();
+      int stopAt = e.lastIndexOf("</evalue>");
+      e = e.substring(8, stopAt);
+      
+      String n = sc.next();
+      stopAt = n.lastIndexOf("</nvalue>");
+      n = n.substring(8, stopAt);
+      
+      HugeUnsignedInt eVal = new HugeUnsignedInt(e);
+      HugeUnsignedInt nVal = new HugeUnsignedInt(n);
+      rsa.setPriKeyValues(eVal, nVal);
+    }
+    catch (FileNotFoundException fnfe){
+      System.out.println("FILE NOT FOUND");
+    }
+  }
+  
+  
   //test XMLWriter
   public static void main(String[] args)
   {
     XMLWriter xw = new XMLWriter();
     xw.makePrivateKey("123","456");
-    xw.makePublicKey("123","456");    
+    xw.makePublicKey("123","456");  
+    
+    xw.getPrivateKey(new RSAHandler());
+    xw.getPublicKey(new RSAHandler());
   }
 }

@@ -21,6 +21,16 @@ public class RSAHandler
   public RSAHandler ()
   {}
   
+  public void setPriKeyValues(HugeUnsignedInt d, HugeUnsignedInt n){
+    this.d = d;
+    this.n = n;
+  }
+  
+  public void setPubKeyValues(HugeUnsignedInt e, HugeUnsignedInt n){
+    this.e = e;
+    this.n = n;
+  }
+  
   //calculate e,d, n values
   public void calcValues(HugePrime p, HugePrime q)
   {
