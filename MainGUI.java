@@ -68,8 +68,10 @@ public class MainGUI extends JFrame
           q = new HugePrime();
         }
         
+        String filePrefix = JOptionPane.showInputDialog(
+                    "Please enter the prefix for the file you would like the keys to be stored in");
         rsa.calcValues(p,q);
-        rsa.generateKeys();
+        rsa.generateKeys(filePrefix);
       }
    }
   
@@ -118,11 +120,13 @@ public class MainGUI extends JFrame
       public void actionPerformed( ActionEvent event )
       {
         String inFile = JOptionPane.showInputDialog("Please enter the name of the file to be encrypted/decrypted");
-        String keyFile = JOptionPane.showInputDialog("Please enter the name of the RSA key file");
-        String outFile = JOptionPane.showInputDialog("Please enter the name output file");
+        String keyFile = JOptionPane.showInputDialog("Please enter the prefix of the RSA key file");
+        String outFile = JOptionPane.showInputDialog("Please enter the name of the output file");
+        int opt = JOptionPane.showConfirmDialog(null, "Are you encrypting? Choose 'no' if decrypting.",
+                                      "Encrypting/Decrypting", JOptionPane.YES_NO_OPTION);
         
         try{
-          rsa.encrypt(inFile, keyFile, outFile);
+          rsa.encrypt(opt, inFile, keyFile, outFile);
         }
         catch(FileNotFoundException fnfe){
           System.out.println("FILE NOT FOUND");

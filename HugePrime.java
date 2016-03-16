@@ -51,6 +51,27 @@ public class HugePrime extends HugeUnsignedInt
   //  this would make verifying primality for e and d
   public boolean isPrime()
   {
+    int k = 10; //affects the accuracy of results
+    if (this.isLessThan(3))
+      return true;
+    
+    int s = 0;
+    HugeUnsignedInt d = this.subtract(1);
+    while (d.modulus(2).equals(0)){
+      s++;
+      d = d.divide(2);
+    }
+    
+    Random rand = new Random();
+    int a1,a2;
+    for (int i=0; i < k; i++){
+      //a1 = rand.nextInt(2, Integer.MAX_VALUE); // random int [0,20)
+      //a2 = rand.nexInt(2, Integer.MAX_VALUE);
+      
+      for (int j=0; d.isGreaterThan(j); j++){
+        
+      }
+    }
     return true;
   }
   

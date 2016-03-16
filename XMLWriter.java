@@ -14,27 +14,28 @@ public class XMLWriter
   public XMLWriter()
   {}
   
-  public void makePublicKey(String e, String n)
+  public void makePublicKey(String filePrefix, String e, String n)
   {
     this.e = e;
     this.n = n;
-    this.makeKey(false);
+    this.makeKey(filePrefix, false);
   }
   
-  public void makePrivateKey(String e, String n)
+  public void makePrivateKey(String filePrefix, String e, String n)
   {
     this.e = e;
     this.n = n;
-    this.makeKey(true);
+    this.makeKey(filePrefix, true);
   }
   
-  private void makeKey(boolean isPrivate)
+  private void makeKey(String filePrefix, boolean isPrivate)
   {
     String fname;
     if (isPrivate)
       fname = "prikey.xml";
     else
       fname = "pubkey.xml";
+    fname = filePrefix+fname;
     
     try{
     File file = new File(fname);
@@ -73,7 +74,7 @@ public class XMLWriter
   
   //gets private key values d and n from an XML file
   //stores them in the parameter RSAHandler's data members
-  public void getPrivateKey( RSAHandler rsa )
+  public void getPrivateKey( String filePrefix, RSAHandler rsa )
   {
     try{
       File file = new File("prikey.xml");
@@ -99,7 +100,7 @@ public class XMLWriter
   
   //gets public key values e and n from an XML file
   //stores them in the parameter RSAHandler's data members
-  public void getPublicKey( RSAHandler rsa )
+  public void getPublicKey( String filePrefix, RSAHandler rsa )
   {
     try{
       File file = new File("pubkey.xml");
@@ -128,10 +129,10 @@ public class XMLWriter
   public static void main(String[] args)
   {
     XMLWriter xw = new XMLWriter();
-    xw.makePrivateKey("123","456");
-    xw.makePublicKey("123","456");  
+    xw.makePrivateKey("test1","123","456");
+    xw.makePublicKey("test1","123","456");  
     
-    xw.getPrivateKey(new RSAHandler());
-    xw.getPublicKey(new RSAHandler());
+    xw.getPrivateKey("test1", new RSAHandler());
+    xw.getPublicKey("test1", new RSAHandler());
   }
 }

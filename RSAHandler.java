@@ -32,14 +32,13 @@ public class RSAHandler
     this.n = n;
   }
   
-  //calculate e,d, n values
+  //calculate e,d, n values, store as data members
   public void calcValues(HugePrime p, HugePrime q)
   {
     this.p = p;
     this.q = q;
+    
     XMLWriter xw = new XMLWriter();
-    xw.getPublicKey(this); //sets this.e and this.n to value in file
-    xw.getPrivateKey(this); //sets this.d and resets this.n (this is ok)
     
     n = p.multiply(q);
    
@@ -69,12 +68,12 @@ public class RSAHandler
   }
  
   //generates a public-private key set and saves each to a separate file
-  public void generateKeys()
+  public void generateKeys(String filePrefix)
   {
     //look up how to make pretty XML files. then public is e and n, private is d and n
     XMLWriter writer = new XMLWriter();
-    writer.makePublicKey(e.toString(),n.toString());
-    writer.makePrivateKey(d.toString(),n.toString());
+    writer.makePublicKey(filePrefix, e.toString(),n.toString());
+    writer.makePrivateKey(filePrefix, d.toString(),n.toString());
   }
  
  
@@ -207,11 +206,17 @@ public class RSAHandler
    
   }
  
- public void encrypt(String blockedFile, String keyFile, String outputFile)throws IOException, FileNotFoundException
+ public void encrypt(int opt, String blockedFile, String keyFile, String outputFile)throws IOException, FileNotFoundException
   {
     //take the e and n value from the key file
     //take in lines from file to be the input
     //output number = (input)^e mod n
+   XMLWriter xw = new XMLWriter();
+   if (opt == 0)
+     xw.getPublicKey(keyFile,this);
+   else
+     xw.getPrivateKey(keyFile,this);
+     
     File file = new File(blockedFile+".txt");
     File out = new File(outputFile+".txt");
     BufferedReader bufferedReader =  new BufferedReader(new FileReader(file));
