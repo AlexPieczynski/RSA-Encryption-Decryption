@@ -73,11 +73,12 @@ public class RSAHandler
      **/
     
    File file = new File(fileName);
+   String outputFile = "";
    File blockedFile = new File(outputFile);
    BufferedReader br = new BufferedReader(new FileReader(file));
    //File should have one line which is the large number
    String number = br.readLine();
-   br.close()
+   br.close();
    HugeUnsignedInt numToBeBlocked = new HugeUnsignedInt(number);
    int numOfNull = 0; //numToBeBlocked.modulus(blockSize);
    PrintWriter pw = new PrintWriter(blockedFile);

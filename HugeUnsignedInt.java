@@ -47,6 +47,28 @@ public class HugeUnsignedInt
   }
   
   
+  //gets the first n digits of a HUI and returns as an HUI
+  private HugeUnsignedInt getNDigits (int n)
+  {
+    HugeUnsignedInt result = new HugeUnsignedInt(0);
+    result.size = n;
+    result.cap = this.cap;
+    result.digits = new byte[result.cap];
+    
+    for (int i=0; i < n; i++)
+      result.digits[i] = this.digits[n-1+i];
+      
+    return result;
+  }
+  
+  
+  //returns ith digit as a string with one char
+  private String getIthDigit( int i )
+  {
+    return Integer.toString(this.digits[this.size-1-i]);
+  }
+  
+  
   //returns String representation of HugeUnsignedInt
   public String toString()
   {
@@ -137,8 +159,10 @@ public class HugeUnsignedInt
   public HugeUnsignedInt subtract( HugeUnsignedInt b )
   {
     //throw exception?
-    if (this.isLessThan(b))
+    if (this.isLessThan(b)){
+      System.out.println("ERROR: subtraction would have resulted in negative number");
       return new HugeUnsignedInt(0);
+    }
     
     HugeUnsignedInt result = new HugeUnsignedInt(0);
     byte[] difference = new byte[this.cap]; //size of result array 
@@ -162,7 +186,7 @@ public class HugeUnsignedInt
     
     n = this.size;
     //fill in rest of array
-    for (; i < n && c > 0; i++){
+    for (; i < n; i++){
       d = this.digits[i] - c;
       if (d < 0){
         d = d+10;
@@ -215,17 +239,18 @@ public class HugeUnsignedInt
         
       }
     }
+    
     StringBuilder builder = new StringBuilder();
     for (int i=0; i < this.size +b.size; i++){
       builder.insert(0, mul[i]);
     }
     String derp = builder.toString();
     HugeUnsignedInt d = new HugeUnsignedInt(derp);
-    d.removeLZ();
     return d;
   }
   
   
+  //divide two HUI using long division
   public HugeUnsignedInt divide( int b ){
     return this.divide(new HugeUnsignedInt(b));
   }
@@ -233,9 +258,42 @@ public class HugeUnsignedInt
   public HugeUnsignedInt divide( HugeUnsignedInt b )
   {
     //throw exception?
-    if (b.equals(new HugeUnsignedInt(0)))
+    if (b.equals(new HugeUnsignedInt(0))){
+      System.out.println("DIVIDE BY ZERO ERROR");
       return this;
-    return this;
+    }
+    //maybe add check to see if divisor is larger than dividend? result will be zero
+    
+    int newCap = this.cap;
+    byte[] quotient = new byte[newCap];
+    
+    int i,j;
+    HugeUnsignedInt temp = new HugeUnsignedInt(0);
+    String nd; //new divisor
+    int n = this.size; //loop through all digits of dividend
+    for (i=0; i < n; i++){
+      nd = temp.toString().concat(this.getIthDigit(i));
+      temp = new HugeUnsignedInt(nd);
+      //System.out.print("no sub yet ");
+      //temp.printNum();
+      for (j=0; temp.isGreaterThan(b) || temp.equals(b); j++){ //count how many times divisor goes into temp
+        //System.out.print("temp before sub is ");
+        //temp.printNum();
+        temp = temp.subtract(b);
+        //System.out.print("temp after sub is ");
+        //temp.printNum();
+        //if (!temp.isGreaterThan(b))
+        //  System.out.println("next call will fail");
+      }
+      //System.out.println("j is " + j);
+      quotient[n-1-i] = (byte) j;      
+    }
+    
+    StringBuilder builder = new StringBuilder();
+    for (i=0; i < n; i++){
+      builder.insert(0, quotient[i]);
+    }
+    return new HugeUnsignedInt(builder.toString());
   }
   
   
@@ -283,8 +341,10 @@ public class HugeUnsignedInt
       for (int i=0; i < size; i++){
         if (this.digits[size-1-i] < b.digits[size-1-i])
           return true;
+        else if (this.digits[size-1-i] > b.digits[size-1-i])
+          return false;
       }
-      return false;
+      return false; //they are the same
     }
   }
   
@@ -304,9 +364,12 @@ public class HugeUnsignedInt
       for (int i=0; i < size; i++){
         if (this.digits[size-1-i] > b.digits[size-1-i])
           return true;
+        else if (this.digits[size-1-i] < b.digits[size-1-i])
+          return false;
       }
-      return false;
     }
+    
+    return false; //they are the same
   }
   
   //prints out a HugeUnsignedInt (must reverse digits)
@@ -368,5 +431,19 @@ public class HugeUnsignedInt
     dif = new HugeUnsignedInt(101);
     dif = dif.subtract(2);
     dif.printNum();
+    
+    //test division
+    System.out.println("DIVISION");
+    HugeUnsignedInt div = new HugeUnsignedInt(100);
+    div = div.divide(new HugeUnsignedInt(5));
+    div.printNum();
+    
+    div = new HugeUnsignedInt("1234752");
+    div = div.divide(new HugeUnsignedInt(336));
+    div.printNum();
+    
+    div = new HugeUnsignedInt("345020140034");
+    div = div.divide(new HugeUnsignedInt("12345432"));
+    div.printNum();
   }
 }
