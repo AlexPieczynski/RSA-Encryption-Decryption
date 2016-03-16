@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.*;
+import java.util.Scanner;
 
 /* class to create a public and private RSA key and save them to a file
  *   -also contains methods to encrypt/decrypt messages using the keys
@@ -89,29 +90,45 @@ public class RSAHandler
     
    File file = new File(fileName+".txt");
    File blockedFile = new File(outputFile+".txt");
-   BufferedReader br = new BufferedReader(new FileReader(file));
-   //File should have one line which is the large number
-   String number = br.readLine();
-   br.close();
-   HugeUnsignedInt numToBeBlocked = new HugeUnsignedInt(number);
+   blockedFile.createNewFile();
+   
+   //read whole line file into one string
+   Scanner sc = new Scanner(file);
+   String wholeFile = sc.useDelimiter("\\Z").next();
+   String ascii = "";
+   
+   for (char c : wholeFile.toCharArray()){
+     if (((int) c) == 11)
+       ascii = "01"+ascii;
+     else{
+     switch (c){
+       case '\0':
+         ascii = "00"+ascii;
+         break;
+       case '\t':
+         ascii = "02"+ascii;
+         break;
+       case '\n':
+         ascii = "03"+ascii;
+         break;
+       case '\r':
+         ascii = "04"+ascii;
+         break;
+       default:
+         int tmp = ((int) c) - 27;
+         if (tmp < 10)
+           ascii = "0"+String.valueOf(tmp)+ascii;
+         else
+           ascii = tmp+ascii;
+     }
+     }
+   }
+   
    int numOfNull = 0; //numToBeBlocked.modulus(blockSize);
    PrintWriter pw = new PrintWriter(blockedFile);
    
-   /**
-   for(int i = (numToBeBlocked.size);i > 0;i= (i-blockSize) )
-   {
-    //Need some way of accessing the numbers to split it up. Or is there some better way?
-    //REDO THIS
-    String split = numToBeBlocked.toString();
-    for(int j = 0; j<blockSize;j=j+2){
-      split.substring(i-2, i);
-      pw.println(split);
-    }
-    //add leading 00 if the blockSize is too large
-    
-   }
-   **/
-   int numLeadingZero = ((numToBeBlocked.size)%(blockSize*2));
+   //add leading 00 if the blockSize is too large
+   int numLeadingZero = (ascii.length())%(blockSize*2);
    String zero = "";
    if(numLeadingZero!=0)
    {
@@ -123,19 +140,19 @@ public class RSAHandler
        numLeadingZero--;
      }
    }
-   String split = numToBeBlocked.toString();
+   String split = ascii;
    split = zero + split;
   
-   int start = split.length()- (blockSize*2);
+   int start = split.length()- (blockSize);
    int end = split.length() ;
    
    
-   for(int i = 0;i < (split.length() / (blockSize*2)) ; i++)
+   for(int i = 0;i < (split.length() / (blockSize)) ; i++)
    {
      String temp = "";
      temp = split.substring(start,end);
-     start = start - (blockSize*2);
-     end = end -  (blockSize*2);
+     start = start - (blockSize);
+     end = end -  (blockSize);
      pw.println(temp);
    }
    pw.close();

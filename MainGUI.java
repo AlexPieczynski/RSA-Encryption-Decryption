@@ -102,7 +102,7 @@ public class MainGUI extends JFrame
         String outputFile =JOptionPane.showInputDialog("Please enter the name of the output file");
         
         try{
-          rsa.unblockFile(Integer.parseInt(blockSize), fname,outputFile);
+          rsa.unblockFile(Integer.parseInt(blockSize), fname, outputFile);
         }
         catch(FileNotFoundException fnfe){
           System.out.println("FILE NOT FOUND");
