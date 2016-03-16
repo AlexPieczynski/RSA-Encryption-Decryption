@@ -143,16 +143,16 @@ public class RSAHandler
    String split = ascii;
    split = zero + split;
   
-   int start = split.length()- (blockSize);
+   int start = split.length()- (blockSize*2);
    int end = split.length() ;
    
    
-   for(int i = 0;i < (split.length() / (blockSize)) ; i++)
+   for(int i = 0;i < (split.length() / (blockSize*2)) ; i++)
    {
      String temp = "";
      temp = split.substring(start,end);
-     start = start - (blockSize);
-     end = end -  (blockSize);
+     start = start - (blockSize*2);
+     end = end -  (blockSize*2);
      pw.println(temp);
    }
    pw.close();
