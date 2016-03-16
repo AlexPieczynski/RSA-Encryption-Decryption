@@ -36,15 +36,10 @@ public class RSAHandler
   public void calcValues(HugePrime p, HugePrime q)
   {
     this.p = p;
-    this.q = q;
+    this.q = q;    
+    this.n = p.multiply(q);
     
-    XMLWriter xw = new XMLWriter();
     
-    n = p.multiply(q);
-   
-    //Should we have subtract be able to enter ints instead of a HUI? FIXED - ALEX
-    //Will making a HUI with a "1" be too much?
-   
     HugeUnsignedInt p1 = p.subtract(1);
     HugeUnsignedInt q1 = q.subtract(1);
     l = p1.multiply(q1);

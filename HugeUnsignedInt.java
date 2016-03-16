@@ -44,6 +44,12 @@ public class HugeUnsignedInt
     System.arraycopy(this.digits, 0, temp, 0, size-i);
     digits = temp;
     size = size-i;
+    
+    if (size == 0)
+    {
+      size = 1;
+      digits[0] = 0;
+    }
   }
   
   
@@ -391,6 +397,24 @@ public class HugeUnsignedInt
     System.out.println();
   }
   
+  private void binaryHelp(StringBuilder result)
+  {
+    if (this.equals(1)){                    // base case
+      result.append("1");
+      return;
+    }
+    this.divide(2).binaryHelp(result);
+    result.append(this.modulus(2).toString());
+  }
+  
+  
+  public HugeUnsignedInt toBinary()
+  {
+    StringBuilder result = new StringBuilder("");
+    this.binaryHelp(result);
+    System.out.println("result is:"+result+"--");
+    return new HugeUnsignedInt(result.toString());
+  }
   
   //some simple test code
   public static void main(String[] args)
@@ -461,5 +485,11 @@ public class HugeUnsignedInt
     HugeUnsignedInt mod = new HugeUnsignedInt("345020140034");
     mod = mod.modulus(new HugeUnsignedInt("12345432"));
     mod.printNum();
+    
+    
+    //test to binary
+    HugeUnsignedInt e = new HugeUnsignedInt(1234);
+    e = e.toBinary();
+    e.printNum();
   }
 }
