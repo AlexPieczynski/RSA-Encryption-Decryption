@@ -40,16 +40,22 @@ public class RSAHandler
     //or 3 for basic codes and 65537 (which is 216 + 1) for more secure codes. <-- this sounds like a good lazy way I do this
     //actually sounds like a bad idea
    
-    e = new HugeUnsignedInt(65537);
-    HugeUnsignedInt k= new HugeUnsignedInt(1);
-    
+   //how should the user enter the random values for e and d?
+    //also have to use euclidean to find e. do we have to implement in HUI?
+    //or 3 for basic codes and 65537 (which is 216 + 1) for more secure codes. <-- this sounds like a good lazy way I do this
+    //actually sounds like a bad idea
+   
+    e = new HugeUnsignedInt(7);
+    HugeUnsignedInt k= new HugeUnsignedInt(351812273291173183);
+    /**
     HugeUnsignedInt loving =  ((l.multiply(k)).add(1)).modulus(e);
     while (loving.equals(0) != true)
     {
       k.add(1);
       loving =  ((l.multiply(k)).add(1)).modulus(e);
     }
-    d = loving;
+    **/
+    d = k;
   }
  
   //generates a public-private key set and saves each to a separate file
