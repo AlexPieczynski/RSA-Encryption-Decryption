@@ -195,42 +195,47 @@ public class RSAHandler
     //take the e and n value from the key file
     //take in lines from file to be the input
     //output number = (input)^e mod n
-    File file = new File(blockedFile);
-    File out = new File(outputFile);
+    File file = new File(blockedFile+".txt");
+    File out = new File(outputFile+".txt");
     BufferedReader bufferedReader =  new BufferedReader(new FileReader(file));
     PrintWriter pw = new PrintWriter(out);
     String line;
+    
+    HugeUnsignedInt tem = new HugeUnsignedInt("7");
     while((line = bufferedReader.readLine()) != null) 
     {
+      boolean wasOdd = false;
       HugeUnsignedInt temp = new HugeUnsignedInt(line);
-      for(int i = 0; i < 7;i++)
+      HugeUnsignedInt t1 = temp;
+      HugeUnsignedInt t2 = temp;
+      if(!(tem.modulus(2).equals( 0)))
       {
-        temp= temp.multiply(temp);
+        tem = tem.subtract(1);
+        wasOdd = true;
       }
-      //temp =temp.expo(this.e);
-      temp = temp.modulus(n);
-      pw.println(temp.toString());
+      while(!(tem.equals(0)))
+      {
+        //System.out.println("pls");
+        //tem.printNum();
+        t1 = t1.multiply(t1);
+        tem = tem.divide(2);
+        t1=t1.modulus(n);
+             // System.out.println(t1);
+      }
+      if(wasOdd)
+      {
+        t1 = t1.multiply(t2);
+        t1 = t1.modulus(n);
+        
+      }
+      else
+      {
+        t1 = t1.modulus(n);
+      }
+      //t1.printNum();
+            pw.println(t1.toString());
     }
-    pw.close();
-    bufferedReader.close();
-  }
- 
-  public void decrypt(String encryptFile, String keyFile,String outputFile)throws IOException, FileNotFoundException
-  {
-    //take the d and n value from the key file
-    //output number = (input)^d mod n
-    File file = new File(encryptFile);
-    File out = new File(outputFile);
-    BufferedReader bufferedReader =  new BufferedReader(new FileReader(file));
-    PrintWriter pw = new PrintWriter(out);
-    String line;
-    while((line = bufferedReader.readLine()) != null) 
-    {
-      HugeUnsignedInt temp = new HugeUnsignedInt(line);
-      //temp =temp.expo(this.d);
-      //temp = temp.mod(n);
-      pw.println(temp.toString());
-    }
+    
     pw.close();
     bufferedReader.close();
   
