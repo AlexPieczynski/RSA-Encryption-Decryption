@@ -14,7 +14,7 @@ public class RSAHandler
   private HugePrime p;   
   private HugePrime q;
   private HugeUnsignedInt n;
-  private HugeUnsignedInt l;
+  private HugeUnsignedInt phi;
   private HugeUnsignedInt e;
   private HugeUnsignedInt d;
 
@@ -39,26 +39,27 @@ public class RSAHandler
     this.q = q;    
     this.n = p.multiply(q);
     
-    
     HugeUnsignedInt p1 = p.subtract(1);
     HugeUnsignedInt q1 = q.subtract(1);
-    l = p1.multiply(q1);
+    phi = p1.multiply(q1);
    
-    //how should the user enter the random values for e and d?
-    //also have to use euclidean to find e. do we have to implement in HUI?
-    //or 3 for basic codes and 65537 (which is 216 + 1) for more secure codes. <-- this sounds like a good lazy way I do this
-    //actually sounds like a bad idea
+    //euclidean algorith,to find e
+    HugeUnsignedInt temp;
+    HugeUnsignedInt a = new HugeUnsignedInt(phi.toString());
+    HugeUnsignedInt b = new HugeUnsignedInt(n.toString());  
+    do{
+      
+      while (!a.equals(0)){
+        temp = b.modulus(a);
+        b = a;
+        a = temp;
+      }
+    }
+    while (!b.equals(1));
+       
    
     e = new HugeUnsignedInt(7);
     HugeUnsignedInt k= new HugeUnsignedInt("351812273291173183");
-    /**
-    HugeUnsignedInt loving =  ((l.multiply(k)).add(1)).modulus(e);
-    while (loving.equals(0) != true)
-    {
-      k.add(1);
-      loving =  ((l.multiply(k)).add(1)).modulus(e);
-    }
-    **/
     d = k;
   }
  
