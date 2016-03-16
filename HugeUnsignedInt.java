@@ -303,7 +303,29 @@ public class HugeUnsignedInt
   
   public HugeUnsignedInt modulus( HugeUnsignedInt b )
   {
-    return this;
+    //throw exception?
+    if (b.equals(new HugeUnsignedInt(0))){
+      System.out.println("DIVIDE BY ZERO ERROR");
+      return this;
+    }
+    //maybe add check to see if divisor is larger than dividend? result will be zero
+    
+    int newCap = this.cap;
+    byte[] quotient = new byte[newCap];
+    
+    int i,j;
+    HugeUnsignedInt temp = new HugeUnsignedInt(0);
+    String nd; //new divisor
+    int n = this.size; //loop through all digits of dividend
+    for (i=0; i < n; i++){
+      nd = temp.toString().concat(this.getIthDigit(i));
+      temp = new HugeUnsignedInt(nd);
+      for (j=0; temp.isGreaterThan(b) || temp.equals(b); j++) //count how many times divisor goes into temp
+        temp = temp.subtract(b);
+      quotient[n-1-i] = (byte) j;      
+    }
+    
+    return new HugeUnsignedInt(temp.toString());
   }
   
   
@@ -445,5 +467,10 @@ public class HugeUnsignedInt
     div = new HugeUnsignedInt("345020140034");
     div = div.divide(new HugeUnsignedInt("12345432"));
     div.printNum();
+    
+    //test modulus
+    HugeUnsignedInt mod = new HugeUnsignedInt("345020140034");
+    mod = mod.modulus(new HugeUnsignedInt("12345432"));
+    mod.printNum();
   }
 }
