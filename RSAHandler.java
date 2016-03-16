@@ -36,6 +36,10 @@ public class RSAHandler
   {
     this.p = p;
     this.q = q;
+    XMLWriter xw = new XMLWriter();
+    xw.getPublicKey(this); //sets this.e and this.n to value in file
+    xw.getPrivateKey(this); //sets this.d and resets this.n (this is ok)
+    
     n = p.multiply(q);
    
     //Should we have subtract be able to enter ints instead of a HUI? FIXED - ALEX
