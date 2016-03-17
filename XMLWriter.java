@@ -1,10 +1,9 @@
+/* Class to write public/private keys to files
+ *   -also contains methods to read keys from XML files
+ */
+
 import java.io.*;
 import java.util.Scanner;
-
-/* 1. Create instance of XMLWriter
- * 2. call makePublicKey or makePrivateKey with e and n values as paramter
- * 3. You're done
- */
 
 public class XMLWriter
 {  

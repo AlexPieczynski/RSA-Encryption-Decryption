@@ -45,22 +45,37 @@ public class RSAHandler
    
     //euclidean algorith,to find e
     HugeUnsignedInt temp;
-    HugeUnsignedInt a = new HugeUnsignedInt(phi.toString());
-    HugeUnsignedInt b = new HugeUnsignedInt(n.toString());  
+    HugeUnsignedInt a;
+    HugeUnsignedInt b;
+    HugeUnsignedInt answer = new HugeUnsignedInt(n.toString());
     do{
-      
+      a = new HugeUnsignedInt(phi.toString());
+      b = answer.subtract(1);
+      answer = new HugeUnsignedInt(b.toString());
+      //find GCD
       while (!a.equals(0)){
         temp = b.modulus(a);
         b = a;
         a = temp;
-      }
+      }      
     }
-    while (!b.equals(1));
-       
-   
-    e = new HugeUnsignedInt(7);
-    HugeUnsignedInt k= new HugeUnsignedInt("351812273291173183");
-    d = k;
+    while (!b.equals(1)); //while GCD is not 1
+    
+    this.e = answer;
+    System.out.print("e is: ");
+    e.printNum();
+    
+    //find d
+    HugeUnsignedInt k = e.divide(2);
+    temp = phi.multiply(k);
+    while (!(temp.add(1).modulus(e).equals(0))){
+      temp = temp.add(phi);
+      k = k.add(1);
+    }
+    k.printNum();
+    this.d = k.multiply(phi).add(1).divide(e);
+    System.out.print("d is: ");
+    d.printNum();
   }
  
   //generates a public-private key set and saves each to a separate file
@@ -265,12 +280,10 @@ public class RSAHandler
     HugePrime q = new HugePrime("3");
     
     RSAHandler n = new RSAHandler();
-        
-    //blockFile(int blockSize, String fileName, String outputFile)
-   
-         n.blockFile(8,"tobeblocked","hatelife4");
-         n.unblockFile(8,"hatelife4","lovelife4");
-
-     
+    
+    //n.blockFile(8,"tobeblocked","hatelife4");
+    //n.unblockFile(8,"hatelife4","lovelife4");
+    
+    n.calcValues(new HugePrime("7"), new HugePrime("11"));
   }
 }

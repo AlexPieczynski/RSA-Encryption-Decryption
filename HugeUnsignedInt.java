@@ -1,4 +1,7 @@
-/* Class to represent unsigned integers too large to fit into Java primative data types */
+/* Class to represent unsigned integers too large to fit into Java primative data types
+ *   relational and arithmetic methods are included
+ */
+
 import java.util.Arrays;
 
 public class HugeUnsignedInt
@@ -134,6 +137,9 @@ public class HugeUnsignedInt
         c = s/10;
         s = s%10;
       }
+      else
+        c = 0;
+      
       sum[i] = (byte) s; 
     }
     

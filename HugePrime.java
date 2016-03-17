@@ -1,4 +1,5 @@
-/* class to hold large prime numbers, mostly for p and q values in RSA algorithms */
+/* class to hold large prime numbers, mostly for p and q values in RSA algorithms
+ *   includes methdos to verify primality and choose a prime from resource file */
 
 import java.io.*;
 import java.util.Scanner;
@@ -8,8 +9,6 @@ import java.util.Random;
 public class HugePrime extends HugeUnsignedInt
 {
   //constructs a huge prime from a string (entered by user)
-  //Thow exception if number isn't prime, caller catches exception
-    //by asking user for another number
   public HugePrime( String number )
   {
     super(number);
@@ -47,8 +46,6 @@ public class HugePrime extends HugeUnsignedInt
   
   
   //returns true if the caller is a prime number
-  //perhaps add this to HugeUnsignedInt class??
-  //  this would make verifying primality for e and d
   public boolean isPrime()
   {    
     HugeUnsignedInt i = new HugeUnsignedInt(2);

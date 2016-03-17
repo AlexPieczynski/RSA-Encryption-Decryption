@@ -1,3 +1,6 @@
+/* Contains GUI code to expose the user to RSA encryption/decryption code
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -75,7 +78,7 @@ public class MainGUI extends JFrame
       }
    }
   
-  
+  //block menu item. blocks a message from specified file, saves result to new file
   private class BlockHandler implements ActionListener {
       public void actionPerformed( ActionEvent event )
       {
@@ -96,6 +99,7 @@ public class MainGUI extends JFrame
   }
   
   
+  //unblock menu item. unblocks specified file, saves result to new file
   private class UnblockHandler implements ActionListener {
       public void actionPerformed( ActionEvent event )
       {
@@ -116,6 +120,7 @@ public class MainGUI extends JFrame
   }
   
   
+  // encrypt/decrypt menu item. encrypts or decrypts a specified blocked file. 
   private class EndeHandler implements ActionListener {
       public void actionPerformed( ActionEvent event )
       {
